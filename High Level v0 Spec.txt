@@ -1,0 +1,12 @@
+Virtual Living Room v0
+
+Essential Features:
+	*	Synchronized Youtube player
+	*	Chat Room
+	*	Content Programming interface
+	
+Goals:
+	*	All video content should come from youtube through authorized APIs
+	*	Site should provide users a shared experience - as an initial goal,
+		all users whose player isn't stalled should see the same content within
+		3 seconds of each other
