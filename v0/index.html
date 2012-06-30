@@ -5,14 +5,40 @@
 	<title>Virtual Living Room v0</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 	<script type="text/javascript">
-		function onYouTubePlayerReady(playerId) {
-			var playerObject;
-			alert("OnYouTubePlayerReady called. playerId = " + playerId);
-			playerObject = swfobject.getObjectById(playerId);
-			if (playerObject) {
-				alert("Youtube player object acquired.");
-			}
+		var LivingRoomModule = (function () {
+			var myModule = {};
+			
+			myModule.currentPlaylist = "PL217AE1080CD2D2CD";
+			myModule.currentVideoIndex = 0;
+			myModule.currentTime = 0;
+			
+			myModule.cuePlaylist = function() {
+				this.player.cuePlaylist({list: this.currentPlaylist, index: this.currentVideoIndex, startSeconds: this.currentTime, suggestedQuality: "medium"}); 
+			};
+			
+			myModule.startPlayer = function() {
+				this.player.playVideo();
+			};
+			return myModule;
+		}());
+	
+		function onPlayerStateChange(newState) {
+			if (newState == 5) {
+				LivingRoomModule.startPlayer();				
+			}			
 		};
+		
+		function onYouTubePlayerReady(playerId) {
+			var player;
+			var currentVideoIndex, currentTime;
+			player = swfobject.getObjectById(playerId);
+			if (player) {				
+				player.addEventListener("onStateChange", "onPlayerStateChange");
+				LivingRoomModule.player = player;
+				LivingRoomModule.cuePlaylist();
+			}
+		};		
+
 	</script>
 </head>
 <body>
@@ -25,7 +51,7 @@
 		var params = { allowScriptAccess: "always" };
 		var atts = { id: "ytPlayer" };
 		swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3&amp;playerapiid=ytPlayer",
-                       "playerContainer", "700", "400", "8", null, null, params, atts);
+                       "playerContainer", "640", "360", "8", null, null, params, atts);
 
   </script>
 </body>
