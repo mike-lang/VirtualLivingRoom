@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content='text/html;charset=UTF-8' http-equiv='content-type' />
+	<title>Virtual Living Room v0</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript">
+		function onYouTubePlayerReady(playerId) {
+			var playerObject;
+			alert("OnYouTubePlayerReady called. playerId = " + playerId);
+			playerObject = swfobject.getObjectById(playerId);
+			if (playerObject) {
+				alert("Youtube player object acquired.");
+			}
+		};
+	</script>
+</head>
+<body>
+	<h1>Virtual Living Room v0</h1>
+	<div id="playerContainer">
+		<p>This is where the youtube player would go if you had Flash installed.</p>
+	</div>
+	<script type="text/javascript">
+
+		var params = { allowScriptAccess: "always" };
+		var atts = { id: "ytPlayer" };
+		swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&amp;version=3&amp;playerapiid=ytPlayer",
+                       "playerContainer", "700", "400", "8", null, null, params, atts);
+
+  </script>
+</body>
+</html>
