@@ -34,7 +34,7 @@ namespace SyncService.Controllers
         public ActionResult GetCursor()
         {
             var currentPosition = SyncProvider.GetCursor();
-            return Json(currentPosition);
+            return Json(currentPosition, JsonRequestBehavior.AllowGet);
         }
 
     }
