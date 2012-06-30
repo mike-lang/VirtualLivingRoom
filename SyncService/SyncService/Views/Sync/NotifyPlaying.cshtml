@@ -1,0 +1,14 @@
+﻿@model SyncService.Providers.PlaylistPosition
+
+@using(Html.BeginForm("NotifyPlaying", "Sync"))
+{
+    <p>
+        @Html.LabelFor(model => model.VideoIndex):
+        @Html.TextBoxFor(model => model.VideoIndex)
+    </p>
+    <p>
+        @Html.LabelFor(model => model.VideoTime):
+        @Html.TextBoxFor(model => model.VideoTime)
+    </p>
+    <input type="submit"/>
+}
