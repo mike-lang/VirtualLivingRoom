@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ninject;
+using SyncService.Misc;
 using SyncService.Providers;
 
 namespace SyncService.Controllers
@@ -31,6 +32,7 @@ namespace SyncService.Controllers
             return Json(new {reponse = "OK"});
         }
 
+        [JsonpFilter]
         public ActionResult GetCursor()
         {
             var currentPosition = SyncProvider.GetCursor();

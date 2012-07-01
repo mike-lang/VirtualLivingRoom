@@ -72,6 +72,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Misc\Jsonpfilterattribute.cs" />
+    <Compile Include="Misc\Jsonpresult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\InMemSyncProvider.cs" />
     <Compile Include="Providers\ISyncProvider.cs" />
