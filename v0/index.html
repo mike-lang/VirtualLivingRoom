@@ -14,18 +14,27 @@
 			myModule.currentTime = 0;
 			
 			myModule.cuePlaylist = function() {
+				var thePlayer = this.player;
 				$.ajax({
 					url: "http://livingroomsyncservice.apphb.com/Sync/GetCursor",
 					dataType: "jsonp",
 					success: function(data, textStatus, jqXHR) {
-						alert("GetCursor call succeeded");
-						this.player.cuePlaylist({list: this.currentPlaylist, index: this.currentVideoIndex, startSeconds: this.currentTime, suggestedQuality: "medium"}); 
+						thePlayer.cuePlaylist({list: myModule.currentPlaylist, index: data.VideoIndex, startSeconds: data.VideoTime, suggestedQuality: "medium"}); 
 					}					
 				});
 				
 			};
 			
 			myModule.startPlayer = function() {
+				$.ajax({
+					url: "http://livingroomsyncservice.apphb.com/Sync/NotifyPlaying",
+					dataType: "jsonp",
+					data: { "position.VideoIndex": myModule.currentVideoIndex,
+							"position.VideoTime": myModule.currentTime },
+					success: function(data, textStatus, jqXHR) {
+						return;
+					}
+				});
 				this.player.playVideo();
 			};
 			return myModule;

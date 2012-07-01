@@ -19,13 +19,7 @@ namespace SyncService.Controllers
             return View(SyncProvider.GetCursor());
         }
 
-
-        public ActionResult NotifyPlaying()
-        {
-            return PartialView(new PlaylistPosition());
-        }
-
-        [AcceptVerbs(HttpVerbs.Post)]
+        [JsonpFilter]
         public ActionResult NotifyPlaying(PlaylistPosition position)
         {
             SyncProvider.RecordPlay(new PlaylistPosition() {VideoIndex = position.VideoIndex, VideoTime = position.VideoTime}, DateTime.UtcNow );
