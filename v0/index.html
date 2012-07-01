@@ -9,7 +9,7 @@
 		var LivingRoomModule = (function () {
 			var myModule = {};
 			
-			myModule.currentPlaylist = "PL217AE1080CD2D2CD";
+			myModule.currentPlaylist = "PL4A4143E2CFDBEB33";
 			myModule.currentVideoIndex = 0;
 			myModule.currentTime = 0;
 			
@@ -19,6 +19,8 @@
 					url: "http://livingroomsyncservice.apphb.com/Sync/GetCursor",
 					dataType: "jsonp",
 					success: function(data, textStatus, jqXHR) {
+						myModule.currentVideoIndex = data.VideoIndex;
+						myModule.currentTime = data.VideoTime;
 						thePlayer.cuePlaylist({list: myModule.currentPlaylist, index: data.VideoIndex, startSeconds: data.VideoTime, suggestedQuality: "medium"}); 
 					}					
 				});
@@ -37,10 +39,39 @@
 				});
 				this.player.playVideo();
 			};
+			
+			myModule.notifyPlaying = function() {
+				var newVideoIndex;
+				var newVideoTime;
+				newVideoIndex = myModule.player.getPlaylistIndex();
+				newVideoTime = myModule.player.getCurrentTime();
+				myModule.currentVideoIndex = newVideoIndex;
+				myModule.currentVideoTime = newVideoTime;
+				$.ajax({
+					url: "http://livingroomsyncservice.apphb.com/Sync/NotifyPlaying",
+					dataType: "jsonp",
+					data: { "position.VideoIndex": myModule.currentVideoIndex,
+							"position.VideoTime": myModule.currentTime },
+					success: function(data, textStatus, jqXHR) {
+						return;
+					}
+				});
+			};
+			
 			return myModule;
 		}());
 	
 		function onPlayerStateChange(newState) {
+			var currentVideoIndex = LivingRoomModule.player.getPlaylistIndex();
+			
+			if (currentVideoIndex != -1 && currentVideoIndex != LivingRoomModule.currentVideoIndex) {
+				//LivingRoomModule.notifyVideoChange();
+			}
+			
+			if (newState == 2) {
+				LivingRoomModule.notifyPlaying();
+			}
+			
 			if (newState == 5) {
 				LivingRoomModule.startPlayer();				
 			}			
@@ -74,5 +105,6 @@
                        "playerContainer", "640", "360", "8", null, null, params, atts);
 
   </script>
+  <script id="sid0010000002100309095">(function() {function async_load(){s.id="cid0010000002100309095";s.src='http://st.chatango.com/js/gz/emb.js';s.style.cssText="width:400px;height:360px;";s.async=true;s.text='{"handle":"MikesVirtualLivingRo","styles":{"b":60,"f":50,"l":"999999","q":"999999","r":100,"s":1}}';var ss = document.getElementsByTagName('script');for (var i=0, l=ss.length; i < l; i++){if (ss[i].id=='sid0010000002100309095'){ss[i].id +='_';ss[i].parentNode.insertBefore(s, ss[i]);break;}}}var s=document.createElement('script');if (s.async==undefined){if (window.addEventListener) {addEventListener('load',async_load,false);}else if (window.attachEvent) {attachEvent('onload',async_load);}}else {async_load();}})();</script>
 </body>
 </html>
