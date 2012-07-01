@@ -14,7 +14,15 @@
 			myModule.currentTime = 0;
 			
 			myModule.cuePlaylist = function() {
-				this.player.cuePlaylist({list: this.currentPlaylist, index: this.currentVideoIndex, startSeconds: this.currentTime, suggestedQuality: "medium"}); 
+				$.ajax({
+					url: "http://livingroomsyncservice.apphb.com/Sync/GetCursor",
+					dataType: "jsonp",
+					success: function(data, textStatus, jqXHR) {
+						alert("GetCursor call succeeded");
+						this.player.cuePlaylist({list: this.currentPlaylist, index: this.currentVideoIndex, startSeconds: this.currentTime, suggestedQuality: "medium"}); 
+					}					
+				});
+				
 			};
 			
 			myModule.startPlayer = function() {
@@ -33,10 +41,12 @@
 			var player;
 			var currentVideoIndex, currentTime;
 			player = swfobject.getObjectById(playerId);
-			if (player) {				
-				player.addEventListener("onStateChange", "onPlayerStateChange");
-				LivingRoomModule.player = player;
-				LivingRoomModule.cuePlaylist();
+			if (player) {
+				$(document).ready(function() {
+					player.addEventListener("onStateChange", "onPlayerStateChange");
+					LivingRoomModule.player = player;
+					LivingRoomModule.cuePlaylist();
+				});
 			}
 		};		
 
